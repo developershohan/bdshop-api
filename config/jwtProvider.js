@@ -7,6 +7,7 @@ const generateToken = (userId) => {
     return token
 }
 
+
 // get User Id From Token
 const getUserIdFromToken = (token) => {
     const decodedToken = jwt.verify(token, process.env.SECRET_KEY)

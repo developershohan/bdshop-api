@@ -3,13 +3,15 @@ import { mongooseConnection } from './config/db.js'
 import userRoutes from "./routers/user.route.js";
 import authRoutes from "./routers/auth.route.js"
 import dotenv from "dotenv"
+import cookieParser from 'cookie-parser';
 
 const app = express()
 
 dotenv.config();
 const PORT = process.env.PORT || 3000
 app.use(express.json())
-app.use(express.urlencoded({ extended:true}))
+app.use(express.urlencoded({ extended:true})) 
+app.use(cookieParser())
 
 
 app.use("/auth", authRoutes)

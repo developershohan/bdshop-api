@@ -36,7 +36,7 @@ const createUser = async (userdata) => {
 const findUserById = async (userId) => {
 
     try {
-        const user = await User.findOne({userId})
+        const user = await User.findById(userId)
         // .populate("address");
 
         if (!user) {
@@ -72,7 +72,7 @@ const getUserProfileByToken = async (token) => {
 
         const userId = getUserIdFromToken(token)
 
-        const user = await getUserByEmail(email)
+        const user = await findUserById(userId)
 
         if (!user) {
             throw new Error(" user not found with id:", userId)
