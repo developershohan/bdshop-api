@@ -1,7 +1,7 @@
 
-import { User } from "../models/user.model";
+import { User } from "../models/user.model.js";
 import bcrypt from "bcrypt"
-import jwtProvider from "../config/jwtProvider.js"
+import {getUserIdFromToken} from "../config/jwtProvider.js"
 
 //  create user service
 const createUser = async (userdata) => {
@@ -22,7 +22,7 @@ const createUser = async (userdata) => {
             fname,
             lname,
             email,
-            password
+            password: hashedPassword
         })
         console.log(`user created`);
         return user
@@ -36,7 +36,8 @@ const createUser = async (userdata) => {
 const findUserById = async (userId) => {
 
     try {
-        const user = awaitUser.findOne(userId).populate("address");
+        const user = await User.findOne({userId})
+        // .populate("address");
 
         if (!user) {
             throw new Error('User not found by id :', userId)
@@ -48,11 +49,11 @@ const findUserById = async (userId) => {
     }
 }
 
-// find user by id
-const findUserByEmail = async (email) => {
+// get user by id
+const getUserByEmail = async (email) => {
 
     try {
-        const user = awaitUser.findOne(email)
+        const user = await User.findOne({email})
 
         if (!user) {
             throw new Error('User not found by email :', email)
@@ -69,9 +70,9 @@ const getUserProfileByToken = async (token) => {
 
     try {
 
-        const userId = jwtProvider.getUserProfileByToken
+        const userId = getUserIdFromToken(token)
 
-        const user = await findUserById(userId)
+        const user = await getUserByEmail(email)
 
         if (!user) {
             throw new Error(" user not found with id:", userId)
@@ -93,4 +94,4 @@ const getAlluser = async () => {
     }
 }
 
-export { createUser, findUserById, findUserByEmail, getUserProfileByToken, getAlluser }
+export { createUser, findUserById, getUserByEmail, getUserProfileByToken, getAlluser }
