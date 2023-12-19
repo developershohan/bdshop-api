@@ -56,6 +56,27 @@ export const addCartItem = async (userId,req)=>{
 
         const cart = await Cart.findOne({user:userId})
         const product = await Product.findById(req.productId)
+
+        const isPresent = await cartItem.findOne({cart: cart._id, product: product._id, userId})
+
+        if (!isPresent) {
+            const cartItem = new CartItem({
+                cart: cart._id,
+                product: product._id,
+                size: req.size,
+                quantity: 1,
+                price: product.price,
+                discountPrice: product.discountedPrice,
+                userId: userId
+            })
+
+            const createdCartItem = await cartItem.save()
+            cart.cartItem.pust(createdCartItem)
+            await cart.save()
+
+            return "Item created successfully"
+        }
+
         
     } catch (error) {
         throw new Error(error.message);
