@@ -1,5 +1,6 @@
 import { Cart } from "../models/cart.model.js";
 import { cartItem } from "../models/cartItem.model.js";
+import { Product } from "../models/product.model.js";
 
 
 // create cart
@@ -15,6 +16,7 @@ try {
 }
 }
 
+Product
 // find user cart
 export const findUserCart = async(userId)=>{
     try {
@@ -41,6 +43,19 @@ export const findUserCart = async(userId)=>{
 
         return cart
 
+        
+    } catch (error) {
+        throw new Error(error.message);
+
+    }
+}
+
+// add cart item
+export const addCartItem = async (userId,req)=>{
+    try {
+
+        const cart = await Cart.findOne({user:userId})
+        const product = await Product.findById(req.productId)
         
     } catch (error) {
         throw new Error(error.message);
