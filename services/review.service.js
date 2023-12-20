@@ -1,5 +1,5 @@
-import { Review } from "../models/review.model";
-import { findProductById } from "./product.service";
+import { Review } from "../models/review.model.js";
+import { findProductById } from "./product.service.js";
 
 // create review
 
