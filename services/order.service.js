@@ -193,6 +193,7 @@ const deleteOrder = async (orderId) => {
 
         const order = await findOrderById(orderId)
         await Order.findByIdAndDelete(order._id)
+        return "Product deleted successfully"
 
     } catch (error) {
         throw new Error(error.message);
