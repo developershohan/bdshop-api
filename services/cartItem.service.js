@@ -1,7 +1,6 @@
 import userService from "../services/user.service.js"
 
 // update Cart Item
-
 const updateCartItem = async (userid, cartItemId, cartItemData) => {
 
     try {
@@ -24,8 +23,8 @@ const updateCartItem = async (userid, cartItemId, cartItemData) => {
             const updatedCartItem = await item.save()
             return updatedCartItem
         }
-        else{
-            
+        else {
+
             throw new Error(" You can't update this cart item");
         }
 
@@ -35,3 +34,62 @@ const updateCartItem = async (userid, cartItemId, cartItemData) => {
     }
 
 }
+
+// remove cart item
+const removeCartItem = async (userId, cartItemId) => {
+
+    try {
+
+        const item = await findCartItemById(cartItemId)
+        const user = await userService.findCartItemById(userId)
+
+        if (!item) {
+
+            throw new Error("cart item not found: ", cartItemId);
+        }
+        if (!user) {
+            throw new Error("User not found: ", userId);
+
+        }
+
+        if (user._id.toString() === userId.toString()) {
+            await item.remove()
+            // await CartItem.findByIdAndDelete(cartItemId)
+            return item
+        }
+        else {
+
+            throw new Error(" You can't update this cart item");
+        }
+
+    } catch (error) {
+        throw new Error(error.message);
+
+    }
+
+}
+
+// find cart by id
+
+const findCartItemById = async (cartItemId) => {
+
+    try {
+
+        const cartItem = await findCartItemById(cartItemId)
+
+        if (cartItem) {
+            return cartItem
+            
+        } else {
+            throw new Error("User not found: ", userid);
+            
+        }
+
+    } catch (error) {
+        throw new Error(error.message);
+
+    }
+
+}
+
+export { updateCartItem,removeCartItem,findCartItemById }
