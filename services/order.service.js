@@ -128,13 +128,13 @@ const deliverOrder = async (orderId) => {
     }
 
 }
-// deliverOrder for admin
+// cancelOrder for admin
 
-const cencelOrder = async (orderId) => {
+const cancelOrder = async (orderId) => {
     try {
 
         const order = await findOrderById(orderId)
-        order.orderStatus = "CENCELED"
+        order.orderStatus = "CANCELED"
         return await order.save()
 
     } catch (error) {
@@ -207,7 +207,7 @@ export {
     confirmOrder,
     shipOrder,
     deliverOrder,
-    cencelOrder,
+    cancelOrder,
     findOrderById,
     getAllOrders,
     deleteOrder,
