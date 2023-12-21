@@ -94,4 +94,4 @@ const getAlluser = async () => {
     }
 }
 
-export { createUser, findUserById, getUserByEmail, getUserProfileByToken, getAlluser }
+export default { createUser, findUserById, getUserByEmail, getUserProfileByToken, getAlluser }

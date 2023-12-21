@@ -4,7 +4,7 @@ import { Product } from "../models/product.model.js";
 
 
 // create cart
-export const createCart = async (user)=>{
+ const createCart = async (user)=>{
 try {
     const cart = new Cart({user})
 
@@ -16,9 +16,8 @@ try {
 }
 }
 
-Product
 // find user cart
-export const findUserCart = async(userId)=>{
+ const findUserCart = async(userId)=>{
     try {
         const cart = await Cart.findOne({user})
         const cartItems = await cartItem.find({cart:cart._id}).populate("product")
@@ -51,7 +50,7 @@ export const findUserCart = async(userId)=>{
 }
 
 // add cart item
-export const addCartItem = async (userId,req)=>{
+ const addCartItem = async (userId,req)=>{
     try {
 
         const cart = await Cart.findOne({user:userId})
@@ -82,4 +81,10 @@ export const addCartItem = async (userId,req)=>{
         throw new Error(error.message);
 
     }
+}
+
+export default {
+    createCart,
+    findUserCart,
+    addCartItem
 }

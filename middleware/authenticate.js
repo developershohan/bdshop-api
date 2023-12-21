@@ -1,5 +1,5 @@
-import { getUserIdFromToken } from "../config/jwtProvider"
-import { findUserById } from "../services/user.service"
+import { getUserIdFromToken } from "../config/jwtProvider.js"
+import userService from "../services/user.service.js"
 
 
 
@@ -7,7 +7,7 @@ const authenticate = async (req, res, next) => {
     try {
         
 
-        const token = req.headers.authorization.split(' ')[1]
+        const token = req.headers.authorization?.split(' ')[1]
 
         if (!token) {
             return res.status(404).send({
@@ -17,7 +17,7 @@ const authenticate = async (req, res, next) => {
         }
 
         const userId = getUserIdFromToken(token)
-        const user =  findUserById(userId)
+        const user =  userService.findUserById(userId)
         req.user = user
 
         // const decoded = jwt.verify(token, process.env.JWT_SECRET)
@@ -31,3 +31,5 @@ const authenticate = async (req, res, next) => {
     }
     next()
 }
+
+export default authenticate

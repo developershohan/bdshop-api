@@ -1,9 +1,9 @@
-import { createProduct } from "../services/product.service";
+import productServices from "../services/product.service.js"
 
 // createProduct
 const createProduct = async (req, res) => {
     try {
-        const product = await createProduct(req.body);
+        const product = await productServices.createProduct(req.body);
         return res.status(201).send(product)
     } catch (error) {
         return res.status(500).send({
@@ -18,7 +18,7 @@ const deleteProduct = async (req, res) => {
     const productId = req.params.id
 
     try {
-        const product = await deleteProduct(productId);
+        const product = await productServices.deleteProduct(productId);
         return res.status(201).send(product)
     } catch (error) {
         return res.status(500).send({
@@ -33,7 +33,7 @@ const updateProduct = async (req, res) => {
     const productId = req.params.id
 
     try {
-        const product = await updateProduct(productId, req.body);
+        const product = await productServices.updateProduct(productId, req.body);
         return res.status(201).send(product)
     } catch (error) {
         return res.status(500).send({
@@ -48,7 +48,7 @@ const findProductById = async (req, res) => {
     const productId = req.params.id
 
     try {
-        const product = await findProductById(productId);
+        const product = await productServices.findProductById(productId);
         return res.status(201).send(product)
     } catch (error) {
         return res.status(500).send({
@@ -63,7 +63,7 @@ const getAllProducts = async (req, res) => {
     const productId = req.params.id
 
     try {
-        const products = await getAllProcucts(req.query);
+        const products = await productServices.getAllProcucts(req.query);
         return res.status(201).send(products)
     } catch (error) {
         return res.status(500).send({
@@ -78,7 +78,7 @@ const createMultipleProducts = async (req, res) => {
     const productId = req.params.id
 
     try {
-        const products = await createMultipleProducts(req.body);
+        const products = await productServices.createMultipleProducts(req.body);
         return res.status(201).send({message: "Products created successfully"})
     } catch (error) {
         return res.status(500).send({

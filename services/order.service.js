@@ -1,7 +1,6 @@
 import { populate } from "dotenv"
 import { Address } from "../models/address.model.js"
 import { Order } from "../models/order.model.js"
-import cartService from "../services/cart.service.js"
 
 // create order service
 
@@ -173,7 +172,7 @@ const findUserOrderHistory = async (userId) => {
 
 // get all order for admin
 
-const getAllOrders = async () => {
+const getAllOrder = async () => {
     try {
 
         const orders = await Order.find().populate({ path: "orderItems", populate: { path: "product" } }).lean()
@@ -201,7 +200,7 @@ const deleteOrder = async (orderId) => {
     }
 }
 
-export {
+export default {
     createOrder,
     placeOrder,
     confirmOrder,
@@ -209,7 +208,7 @@ export {
     deliverOrder,
     cancelOrder,
     findOrderById,
-    getAllOrders,
+    getAllOrder,
     deleteOrder,
     findUserOrderHistory
 }

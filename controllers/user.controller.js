@@ -5,7 +5,7 @@
 // }
 
 // import files
-import { getAlluser, getUserProfileByToken } from "../services/user.service.js";
+import userService from "../services/user.service.js";
 
 // get user profile
 const getUserProfile = async(req, res) => {
@@ -17,7 +17,7 @@ const getUserProfile = async(req, res) => {
         if (!jwt) {
             return res.status(404).send({error:"token not found"})
         }
-        const user = await getUserProfileByToken(jwt)
+        const user = await userService.getUserProfileByToken(jwt)
 
         res.status(200).send(user)
         
@@ -30,7 +30,7 @@ const getUserProfile = async(req, res) => {
 const getAllUsers = async (req, res) => {
     try {
 
-        const users = await getAlluser()
+        const users = await userService.getAlluser()
         res.status(200).send(users)
         
     } catch (error) {

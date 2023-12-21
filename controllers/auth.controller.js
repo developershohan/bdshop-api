@@ -1,8 +1,7 @@
 // import files
-import { createUser, getUserByEmail } from "../services/user.service.js"
 import { generateToken } from "../config/jwtProvider.js"
 import bcrypt from "bcrypt"
-import { createCart } from "../services/cart.service.js"
+import  cartService  from "../services/cart.service.js"
 import jwt from "jsonwebtoken"
 import { User } from "../models/user.model.js"
 
@@ -11,7 +10,7 @@ import { User } from "../models/user.model.js"
 const register = async (req, res) => {
 
     try {
-        const user = await createUser(req.body)
+        const user = await cartService.createUser(req.body)
         const jwt = generateToken(user._id)
 
 
@@ -29,7 +28,7 @@ const register = async (req, res) => {
 const login = async (req, res) => {
     const { email, password } = req.body
     try {
-        const user = await getUserByEmail(email)
+        const user = await cartService.getUserByEmail(email)
 
         if (!user) {
             return res.status(404).send({ message: 'User not found', email })

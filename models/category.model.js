@@ -12,7 +12,7 @@ const categorySchema = new mongoose.Schema({
         required: true
     },
     level: {
-        type: number,
+        type: Number,
         required: true
     }
 })

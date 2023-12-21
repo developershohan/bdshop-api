@@ -92,4 +92,4 @@ const findCartItemById = async (cartItemId) => {
 
 }
 
-export { updateCartItem,removeCartItem,findCartItemById }
+export default { updateCartItem,removeCartItem,findCartItemById }

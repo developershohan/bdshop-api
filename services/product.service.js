@@ -160,7 +160,7 @@ const createMultipleProducts = async (products) =>{
     }
 }
 
-export {
+export  default{
     createProduct,
     deleteProduct,
     updateProduct,

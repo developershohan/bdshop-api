@@ -1,5 +1,5 @@
 
-import { findUserCart,addCartItem } from "../services/cart.service,js"
+import cartService from "../services/cart.service.js"
 
 
 // find user cart 
@@ -9,7 +9,7 @@ const findUserCart = async (req,res) =>{
 
     try {
 
-        const cart = await findUserCart(user._id)
+        const cart = await cartService.findUserCart(user._id)
         return res.status(200).send(cart)
         
     } catch (error) {
@@ -27,7 +27,7 @@ const addItemToCart = async (req,res) =>{
 
     try {
 
-        const cartItem = await addCartItem(user._id, req.body)
+        const cartItem = await cartService.addCartItem(user._id, req.body)
         return res.status(200).send(cartItem)
         
     } catch (error) {
