@@ -19,8 +19,16 @@ try {
 // find user cart
  const findUserCart = async(userId)=>{
     try {
-        let cart = await Cart.findOne({user:userId})
-        let cartItems = await cartItem.find({cart:cart._id}).populate("product")
+        let cart = await Cart.findOne({ user: userId })
+
+        if (!cart) {
+            // If cart is null, create a new cart for the user
+            cart = await createCart(userId);
+        }
+
+        let cartItems = await cartItem.find({ cart: cart._id }).populate("product");
+
+       
 
         cart.cartItems = cartItems
 
