@@ -2,7 +2,7 @@ import orderService from "../services/order.service.js";
 
 // createOrder
 const createOrder = async (req, res) => {
-    const user = req.user
+    const user = await req.user
 
     try {
         let createOrder = await orderService.createOrder(user, req.body)
@@ -17,7 +17,7 @@ const createOrder = async (req, res) => {
 
 // findOrderById
 const findOrderById = async (req, res) => {
-    const user = req.user
+    const user = await req.user
 
     try {
         let findOrderById = await orderService.findOrderById(req.params.id)

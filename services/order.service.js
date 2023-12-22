@@ -1,11 +1,13 @@
 import { populate } from "dotenv"
 import { Address } from "../models/address.model.js"
 import { Order } from "../models/order.model.js"
+import { OrderItem } from "../models/orderItems.js"
+import cartService from "./cart.service.js"
+
 
 // create order service
 
 const createOrder = async (user, shippingAddress) => {
-    Add
     try {
 
         let address
@@ -19,7 +21,7 @@ const createOrder = async (user, shippingAddress) => {
             address.user = user
             await address.save()
 
-            user.addresses.push(address)
+            user.address.push(address)
             await user.save()
 
         }
@@ -29,7 +31,7 @@ const createOrder = async (user, shippingAddress) => {
 
         for (const item of cart.cartItems) {
 
-            const orderItem = new orderItem({
+            const orderItem = new OrderItem({
                 product: item.product,
                 size: item.size,
                 quantity: item.quantity,
@@ -53,7 +55,7 @@ const createOrder = async (user, shippingAddress) => {
             totalItem: cart.totalItem
         })
 
-        const saveOrder = await createOrder.save()
+        const saveOrder = await createdOrder.save()
         return saveOrder
 
     } catch (error) {
