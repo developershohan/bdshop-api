@@ -8,8 +8,8 @@ import { Product } from "../models/product.model.js";
 try {
     const cart = new Cart({user})
 
-    const createCart = await cart.save()
-    return createCart
+    const createdCart = await cart.save()
+    return createdCart
     
 } catch (error) {
     throw new Error(error.message);
@@ -19,8 +19,8 @@ try {
 // find user cart
  const findUserCart = async(userId)=>{
     try {
-        const cart = await Cart.findOne({user})
-        const cartItems = await cartItem.find({cart:cart._id}).populate("product")
+        let cart = await Cart.findOne({user:user})
+        let cartItems = await cartItem.find({cart:cart._id}).populate("product")
 
         cart.cartItems = cartItems
 

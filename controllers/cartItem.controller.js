@@ -30,7 +30,7 @@ const removeCartItem = async (req,res) => {
     }
 }
 
-export {
+export default{
     updateCartItem,
     removeCartItem
 }
