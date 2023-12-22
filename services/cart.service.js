@@ -20,23 +20,25 @@ try {
  const findUserCart = async(userId)=>{
     try {
         let cart = await Cart.findOne({ user: userId })
+        .populate({
+            path: 'cartItem',
+            populate: {
+                path: 'product',
+                model: 'products',  // Replace with the correct model name for Product
+            },
+        });
 
-        if (!cart) {
-            // If cart is null, create a new cart for the user
-            cart = await createCart(userId);
-        }
+    if (!cart) {
+        // If cart is null, create a new cart for the user
+        cart = await createCart(userId);
+    }
 
-        let cartItems = await cartItem.find({ cart: cart._id }).populate("product");
-
-       
-
-        cart.cartItems = cartItems
 
         let totalPrice = 0
         let totalDiscountPrice = 0
         let totalItem = 0
 
-        for (let cartItem of cart.cartItems) {
+        for (let cartItem of cart.cartItem) {
             
             totalPrice += cartItem.price
             totalDiscountPrice += cartItem.discountPrice
