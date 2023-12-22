@@ -2,7 +2,7 @@
 import { generateToken } from "../config/jwtProvider.js"
 import bcrypt from "bcrypt"
 import  userService  from "../services/user.service.js"
-import  cartService  from "../services/cart.service.js"
+import  cartServices  from "../services/cart.service.js"
 
 
 // user registration
@@ -13,7 +13,7 @@ const register = async (req, res) => {
         const jwt = generateToken(user._id)
 
 
-        const cart = await cartService.createCart(user)
+        const cart = await cartServices.createCart(user)
 
         return res.status(200).send({ user, jwt, message: "register successfull",cart })
 

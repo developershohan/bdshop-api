@@ -38,7 +38,7 @@ const addItemToCart = async (req,res) =>{
 
 }
 
-export {
+export default {
     findUserCart,
     addItemToCart
 }

@@ -1,5 +1,5 @@
 import { Cart } from "../models/cart.model.js";
-import { cartItem } from "../models/cartItem.model.js";
+import  {cartItem}  from "../models/cartItem.model.js";
 import { Product } from "../models/product.model.js";
 
 
@@ -19,7 +19,7 @@ try {
 // find user cart
  const findUserCart = async(userId)=>{
     try {
-        let cart = await Cart.findOne({user:user})
+        let cart = await Cart.findOne({user:userId})
         let cartItems = await cartItem.find({cart:cart._id}).populate("product")
 
         cart.cartItems = cartItems
@@ -59,7 +59,7 @@ try {
         const isPresent = await cartItem.findOne({cart: cart._id, product: product._id, userId})
 
         if (!isPresent) {
-            const cartItem = new CartItem({
+            const newCartItem = new cartItem({
                 cart: cart._id,
                 product: product._id,
                 size: req.size,
@@ -69,8 +69,8 @@ try {
                 userId: userId
             })
 
-            const createdCartItem = await cartItem.save()
-            cart.cartItem.pust(createdCartItem)
+            const createdCartItem = await newCartItem.save()
+            cart.cartItem.push(createdCartItem)
             await cart.save()
 
             return "Item created successfully"
@@ -82,6 +82,7 @@ try {
 
     }
 }
+
 
 export default {
     createCart,
