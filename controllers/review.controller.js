@@ -1,11 +1,11 @@
-import { createReview,getAllReviews } from "../services/review.service.js";
+import reviewService from "../services/review.service.js";
 
 
 // create a new review
 const createReview = async(req, res) => {
     const user = req.user
     try {
-        const review = await createReview(req.body, user)
+        const review = await reviewService.createReview(req.body, user)
         return res.status(201).send(review)
     } catch (error) {
         return res.status(500).send({
@@ -19,7 +19,7 @@ const getAllReviews = async(req, res) => {
     const productId = req.params.id
     const user = req.user
     try {
-        const reviews = await getAllReviews(productId)
+        const reviews = await reviewService.getAllReviews(productId)
         return res.status(201).send(reviews)
     } catch (error) {
         return res.status(500).send({

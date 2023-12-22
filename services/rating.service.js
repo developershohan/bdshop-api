@@ -1,11 +1,11 @@
 import { Rating } from "../models/rating.model.js";
-import { findProductById } from "./product.service.js";
+import productService from "./product.service.js";
 
 // create a new rating
 
 const createRating = async (reqData, user) => {
     try {
-        const product = await findProductById(reqData.productId)
+        const product = await productService.findProductById(reqData.productId)
         const rating = new Rating({
             rating: reqData.rating,
             comment: reqData.comment,
@@ -26,14 +26,14 @@ const createRating = async (reqData, user) => {
 const getAllRatings = async (productId) => {
 
     try {
-        const product = await findProductById(productId)
+        const product = await productService.findProductById(productId)
         const ratings = await Rating.find({ product: product._id }).populate("user")
         return ratings
     } catch (error) {
         throw new Error(error.message)}
 }
 
-export {
+export default{
     createRating,
     getAllRatings
 }
