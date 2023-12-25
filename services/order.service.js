@@ -8,7 +8,7 @@ import cartService from "./cart.service.js"
 // create order service
 
 const createOrder = async (user, shippingAddress) => {
-    try {
+
 
         let address
 
@@ -25,18 +25,30 @@ const createOrder = async (user, shippingAddress) => {
             await user.save()
 
         }
+  
 
-        const cart = await cartService.findUserCart(user._id)
+
+        
+        const cart = await cartService.findUserCart(user._id);
+  
+        // if (!cart || !Array.isArray(cart.cartItem)) {
+        //     throw new Error("Invalid cart data");
+        // }
+        
+        // if (!Array.isArray(cart.cartItems)) {
+        //     throw new Error("cart.cartItems is not an array");
+        // }
         const orderItems = []
 
-        for (const item of cart.cartItems) {
+        for (const item of cart.cartItem) {
+            console.log(item);
 
             const orderItem = new OrderItem({
                 product: item.product,
                 size: item.size,
                 quantity: item.quantity,
                 price: item.price,
-                discountPrice: item.discountPrice,
+                discountedPrice: item.discountPrice,
                 userId: user._id,
                 address: address._id
             })
@@ -57,11 +69,6 @@ const createOrder = async (user, shippingAddress) => {
 
         const saveOrder = await createdOrder.save()
         return saveOrder
-
-    } catch (error) {
-        throw new Error(error.message);
-
-    }
 
 }
 

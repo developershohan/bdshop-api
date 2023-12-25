@@ -5,36 +5,36 @@ const cartItemSchema = new mongoose.Schema({
     cart: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "carts",
-        required: true
+        // required: true
     },
     product: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "products",
-        required: true
+        // required: true
     },
     size: {
         type: String,
-        required: true
+        // required: true
     },
     quantity: {
         type: Number,
-        required: true,
+        // required: true,
         default: 1
     },
     price: {
         type: Number,
-        required: true,
+        // required: true,
         default: 0
     },
     discountPrice: {
         type: Number,
-        required: true,
+        // required: true,
 
     },
     userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "users",
-        required: true
+        // required: true
     }
 
 })

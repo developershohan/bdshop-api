@@ -28,11 +28,14 @@ try {
             },
         });
 
-    if (!cart) {
-        // If cart is null, create a new cart for the user
-        cart = await createCart(userId);
-    }
+        if (!cart) {
+            // If cart is null, create a new cart for the user
+            cart = await createCart(userId);
+        }
 
+        if (!Array.isArray(cart.cartItem)) {
+            throw new Error("Invalid cart data");
+        }
 
         let totalPrice = 0
         let totalDiscountPrice = 0
@@ -61,9 +64,10 @@ try {
 
 // add cart item
  const addCartItem = async (userId,req)=>{
-    try {
+     try {
 
         const cart = await Cart.findOne({user:userId})
+
         const product = await Product.findById(req.productId)
 
         const isPresent = await cartItem.findOne({cart: cart._id, product: product._id, userId})
@@ -73,10 +77,10 @@ try {
                 cart: cart._id,
                 product: product._id,
                 size: req.size,
+                userId,
                 quantity: 1,
                 price: product.price,
                 discountPrice: product.discountedPrice,
-                userId: userId
             })
 
             const createdCartItem = await newCartItem.save()
