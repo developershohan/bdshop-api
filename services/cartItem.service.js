@@ -3,7 +3,7 @@ import userService from "../services/user.service.js"
 import { cartItem } from "../models/cartItem.model.js";
 
 // update Cart Item
-const updateCartItem = async (userid, cartItemId, cartItemData) => {
+const updateCartItem = async (userId, cartItemId, cartItemData) => {
 
     try {
 
@@ -13,15 +13,17 @@ const updateCartItem = async (userid, cartItemId, cartItemData) => {
 
             throw new Error("cart item not found: ", cartItemId);
         }
+        const user = await userService.findUserById(item.userId)
+
         if (!user) {
-            throw new Error("User not found: ", userid);
+            throw new Error("User not found: ", userId);
 
         }
-
-        if (user._id.toString() === userid.toString()) {
+console.log(item.product);
+        if (user._id.toString() === userId.toString()) {
             item.quantity = cartItemData.quantity
-            item.price = quantity * item.product.price
-            item.discountedprice = item.quantity * item.product.discountedprice
+            item.price = item.quantity * item.product.price
+            // item.discountPrice = item.quantity * item.product.discountPrice
             const updatedCartItem = await item.save()
             return updatedCartItem
         }
@@ -77,7 +79,7 @@ const findCartItemById = async (cartItemId) => {
 
     try {
 
-        const cartItems = await cartItem.findById(cartItemId)
+        const cartItems = await cartItem.findById(cartItemId).populate('product')
         console.log(cartItems);
         // const cartItem = await findCartItemById(cartItemId)
 
