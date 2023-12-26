@@ -1,4 +1,6 @@
+
 import userService from "../services/user.service.js"
+import { cartItem } from "../models/cartItem.model.js";
 
 // update Cart Item
 const updateCartItem = async (userid, cartItemId, cartItemData) => {
@@ -40,8 +42,8 @@ const removeCartItem = async (userId, cartItemId) => {
 
     try {
 
-        const item = await findCartItemById(cartItemId)
-        const user = await userService.findCartItemById(userId)
+        const item = await findCartItemById(cartItemId,userId)
+        const user = await userService.findUserById(userId)
 
         if (!item) {
 
@@ -53,9 +55,9 @@ const removeCartItem = async (userId, cartItemId) => {
         }
 
         if (user._id.toString() === userId.toString()) {
-            await item.remove()
-            // await CartItem.findByIdAndDelete(cartItemId)
-            return item
+  
+            return  await cartItem.findByIdAndDelete(cartItemId)
+             
         }
         else {
 
@@ -75,13 +77,15 @@ const findCartItemById = async (cartItemId) => {
 
     try {
 
-        const cartItem = await findCartItemById(cartItemId)
+        const cartItems = await cartItem.findById(cartItemId)
+        console.log(cartItems);
+        // const cartItem = await findCartItemById(cartItemId)
 
-        if (cartItem) {
-            return cartItem
+        if (cartItems) {
+            return cartItems
             
         } else {
-            throw new Error("User not found: ", userid);
+            throw new Error("User not found: ", userId);
             
         }
 

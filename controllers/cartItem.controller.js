@@ -4,6 +4,7 @@ import cartItemService from "../services/cartItem.service.js";
 
 // update Cart Item
 const updateCartItem = async (req,res) => {
+    const user = await req.user;
     try {
 
         const updateCartItem = await cartItemService.updateCartItem(user._id, req.params, req.body);
@@ -18,6 +19,7 @@ const updateCartItem = async (req,res) => {
 
 // remove Cart Item
 const removeCartItem = async (req,res) => {
+    const user = await req.user;
     try {
 
        await cartItemService.removeCartItem(user._id, req.params.id);
