@@ -88,69 +88,64 @@ const findProductById = async (id) => {
 }
 
 // get all products
+// get all products
+const getAllProducts = async (reqQuery) => {
+    try {
+        let { category, color, sizes, minPrice, maxPrice, minDiscount, sort, stock, pageNumber, pageSize } = reqQuery;
 
-const getAllProcucts = async (reqQuery) => {
+        pageSize = pageSize || 10;
 
-    let { category, color, sizes, minPrice, MaxPrice, minDiscount, sort, stock, pageNumber, pageSize } = reqQuery
+        let query = Product.find().populate("category");
 
-    pageSize = pageSize || 10
+              // color
+              if (color) {
+                const colorSet = new set(color.split(",").map(color => color.trim().toLowerCase()))
+                const colorRegex = await colorSet.size > 0 ? new RegExp([...colorset].join("|"), "i") : null
+        
+                query = query.where("color").regex(colorRegex)
+            }
+        
+            // minPrice & maxPrice
+            if (minPrice && minPrice) {
+                query = query.where("discountedPrice").gte(minPrice).lte(maxPrice)
+            }
+        
+            // minDiscount
+            if (minDiscount) {
+                query = query.where("discountedPersent").gt(minDiscount)
+            }
+        
+            // stock
+            if (stock) {
+                if (stock == "in_stock") {
+                    query = query.where("quantity").gt(0)
+                }
+                else if (stock == "out_of_stock") {
+                    query = query.where("quantity").lt(1)
+                }
+            }
+        
 
-    let query = await Product.findOne().populate("category")
-
-    // category
-    if (category) {
-        const existCategory = await Category.findOne({ name: category })
-
-        if (existCategory) {
-            query = await query.where("category").equals(existCategory._id)
+        // sort
+        if (sort) {
+            const sortDirection = sort === "price_high" ? -1 : 1;
+            query = query.sort({ "discountedPrice": sortDirection });
         }
-        else {
-            return { content: [], currentPage: 1, totalPages: 0 }
-        }
+
+        const totalProducts = await Product.countDocuments(query);
+
+        const skip = (pageNumber - 1) * pageSize;
+        query = query.skip(skip).limit(pageSize);
+
+        const products = await query.exec();
+
+        return { content: products, currentPage: pageNumber, totalPages: Math.ceil(totalProducts / pageSize) };
+    } catch (error) {
+        throw new Error(error.message);
     }
+};
 
-    // color
-    if (color) {
-        const colorSet = new set(color.split(",").map(color => color.trim().toLowerCase()))
-        const colorRegex = await colorSet.size > 0 ? new RegExp([...colorset].join("|"), "i") : null
 
-        query = query.where("color").regex(colorRegex)
-    }
-
-    // minPrice & maxPrice
-    if (minPrice && minPrice) {
-        query = query.where("discountedPrice").gte(minPrice).lte(maxPrice)
-    }
-
-    // minDiscount
-    if (minDiscount) {
-        query = query.where("discountedPersent").gt(minDiscount)
-    }
-
-    // stock
-    if (stock) {
-        if (stock == "in_stock") {
-            query = query.where("quantity").gt(0)
-        }
-        else if (stock == "out_of_stock") {
-            query = query.where("quantity").lt(1)
-        }
-    }
-
-    // sort
-    if (sort) {
-        const sortDirection = sort === "price_hight"? -1:1
-        query = query.sort({ "discountedPrice": sortDirection })
-    }
-    const totalProducts = await Product.countDocuments(query)
-
-    const skip = (pageNumber - 1)*pageSize
-    query = query.skip(skip).limit(pageSize)
-
-    const products = await query.exec()
-    return { content: products, currentPage: pageNumber, totalPages: Math.ceil(totalProducts/pageSize) }
-
-}
 
 // create multiple products
 const createMultipleProducts = async (products) =>{
@@ -165,6 +160,6 @@ export  default{
     deleteProduct,
     updateProduct,
     findProductById,
-    getAllProcucts,
+    getAllProducts,
     createMultipleProducts
 }

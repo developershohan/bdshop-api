@@ -63,7 +63,7 @@ const getAllProducts = async (req, res) => {
     const productId = req.params.id
 
     try {
-        const products = await productServices.getAllProcucts(req.query);
+        const products = await productServices.getAllProducts(req.query);
         return res.status(201).send(products)
     } catch (error) {
         return res.status(500).send({
